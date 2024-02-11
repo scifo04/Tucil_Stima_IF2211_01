@@ -7,7 +7,6 @@ public class FileProcess {
     static Scanner scStr = new Scanner(System.in);
 
     public static void Read(String path, Matrix M, Matrix N){
-        int m,n;
             try{
                 File f = new File(path);
                 Scanner reader = new Scanner(f);
@@ -20,8 +19,8 @@ public class FileProcess {
                     String[] matrix_size_string = reader.nextLine().trim().split(" ");
                     int matrix_row = Integer.parseInt(matrix_size_string[0]);
                     int matrix_col = Integer.parseInt(matrix_size_string[1]);
-                    M.setRow(matrix_row);
                     M.setCol(matrix_col);
+                    M.setRow(matrix_row);
                 }
                 for (int i = 0; i < M.Row(); i++) {
                     if (reader.hasNextLine()) {
