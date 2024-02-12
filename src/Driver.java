@@ -105,7 +105,7 @@ public class Driver {
         System.out.print(duration);
         System.out.println(" ms");
 
-        FileProcess.Write(max_ListString, possible_tokens[max_idx].getprize_String(), token_list.getElmt_ListDyn(max_idx));
+        FileProcess.Write(max_ListString, possible_tokens[max_idx].getprize_String(), token_list.getElmt_ListDyn(max_idx), duration);
     }
 
     public static void second_method() {
@@ -141,8 +141,8 @@ public class Driver {
 
         System.out.print("Masukkan ukuran matriks: ");
         String[] matrix_row_col = (new Scanner(System.in)).nextLine().trim().split(" ");
-        int matrix_row_size = Integer.parseInt(matrix_row_col[0]);
-        int matrix_col_size = Integer.parseInt(matrix_row_col[1]);
+        int matrix_row_size = Integer.parseInt(matrix_row_col[1]);
+        int matrix_col_size = Integer.parseInt(matrix_row_col[0]);
 
         System.out.print("Masukkan jumlah sekuens: ");
         int jumlah_sekuens = (new Scanner(System.in)).nextInt();
@@ -160,10 +160,25 @@ public class Driver {
         for (int i = 0; i < jumlah_sekuens; i++) {
             rand = r.nextInt(ukuran_maksimal_sekuens-1)+2;
             prize_token[i] = new ListString(rand);
-            for (int j = 0; j < rand; j++) {
-                prize_token[i].InsertLast_String(token[r.nextInt(token.length)]);
+            while (true) {
+                for (int j = 0; j < rand; j++) {
+                    prize_token[i].InsertLast_String(token[r.nextInt(token.length)]);
+                }
+                int count = 0;
+                for (int k = 0; k < prize_token.length; k++) {
+                    if (prize_token[k] != null) {
+                        if (prize_token[i].isEqual_String_Beginning(prize_token[i], prize_token[k]) && i != k) {
+                            count -= 1;
+                        }
+                    }
+                }
+                if (count == 0) {
+                    break;
+                } else {
+                    prize_token[i] = new ListString(rand);
+                }
             }
-            prize_token[i].setprize_String(r.nextInt(101));
+            prize_token[i].setprize_String(r.nextInt(1001));
             int rando = r.nextInt(3);
             if (rando == 2) {
                 prize_token[i].setprize_String(-1*prize_token[i].getprize_String());
@@ -241,7 +256,7 @@ public class Driver {
         System.out.print(duration);
         System.out.println(" ms");
 
-        FileProcess.Write(max_ListString, possible_tokens[max_idx].getprize_String(), token_list.getElmt_ListDyn(max_idx));
+        FileProcess.Write(max_ListString, possible_tokens[max_idx].getprize_String(), token_list.getElmt_ListDyn(max_idx), duration);
     }
     
     // Main

@@ -20,8 +20,8 @@ public class FileProcess {
                     String[] matrix_size_string = reader.nextLine().trim().split(" ");
                     int matrix_row = Integer.parseInt(matrix_size_string[0]);
                     int matrix_col = Integer.parseInt(matrix_size_string[1]);
-                    M.setCol(matrix_col);
-                    M.setRow(matrix_row);
+                    M.setCol(matrix_row);
+                    M.setRow(matrix_col);
                 }
 
                 for (int i = 0; i < M.Row(); i++) {
@@ -74,7 +74,7 @@ public class FileProcess {
             }
         }
         
-    public static void Write(ListString liststring, int prize, ListDyn listcoor) {
+    public static void Write(ListString liststring, int prize, ListDyn listcoor, long time) {
         System.out.println();
         System.out.println("====================================");
         System.out.println("||    Simpan output dalam file?   ||");
@@ -108,6 +108,9 @@ public class FileProcess {
                             writer.write("\n");
                         }
                     }
+                    writer.write("\n");
+                    writer.write(Integer.toString((int)time));
+                    writer.write(" ms");
                     writer.close();
                     System.out.println("Berhasil menulis ke file " + path);
                 } catch (IOException e) {
