@@ -182,7 +182,7 @@ public class Driver {
                 possible_tokens_2[i].copyList_String(possible_tokens[i]);
             }
         }
-        
+
         long endTime = System.currentTimeMillis();
 
         ListString max_ListString = new ListString(buffer_size);
@@ -215,17 +215,32 @@ public class Driver {
     
     // Main
     public static void main(String[] args) {
+        while (true) {
+            System. out. print("\033[H\033[2J");
+            System.out.flush();
+            System.out.println("=====================================");
+            System.out.println("|| Masukkan metode yang diinginkan ||");
+            System.out.println("=====================================");
+            System.out.println("|| 1. Matrix From File             ||");
+            System.out.println("|| 2. Random Generated Matrix      ||");
+            System.out.println("|| Other: Exit                     ||");
+            System.out.println("=====================================");
+            System.out.println();
+            System.out.print("Input: ");
+            int method = (new Scanner(System.in)).nextInt();
 
-        System.out.println("Masukkan metode yang diinginkan");
-        System.out.println("1. Matrix From File");
-        System.out.println("2. Random Generated Matrix");
-        System.out.print("Input: ");
-        int method = (new Scanner(System.in)).nextInt();
-
-        if (method == 1) {
-            first_method();
-        } else if (method == 2) {
-            second_method();
+            if (method == 1) {
+                first_method();
+            } else if (method == 2) {
+                second_method();
+            } else {
+                System. out. print("\033[H\033[2J");
+                System.out.flush();
+                System.out.println("=====================================");
+                System.out.println("||          Terima kasih!!         ||");
+                System.out.println("=====================================");
+                break;
+            }
         }
     }
 }
