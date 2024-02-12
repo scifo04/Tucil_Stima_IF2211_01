@@ -85,15 +85,21 @@ public class Driver {
             }
         }
 
-        System.out.print("Sekuens Optimal: ");
-        possible_tokens[max_idx].DisplayList_String();
-        System.out.println();
-        System.out.print("Poin Optimal: ");
-        System.out.print(possible_tokens[max_idx].getprize_String());
-        System.out.println();
-        System.out.println("Koordinat Optimal: ");
-        token_list.getElmt_ListDyn(max_idx).DisplayList_Dyn_Resultado();
-        System.out.println();
+        if (possible_tokens[max_idx].getprize_String() == 0) {
+            System.out.print("Tidak ada poin paling optimal. Maka hasilnya adalah 0: ");
+            System.out.print(possible_tokens[max_idx].getprize_String());
+            System.out.println();
+        } else {
+            System.out.print("Sekuens Optimal: ");
+            possible_tokens[max_idx].DisplayList_String();
+            System.out.println();
+            System.out.print("Poin Optimal: ");
+            System.out.print(possible_tokens[max_idx].getprize_String());
+            System.out.println();
+            System.out.println("Koordinat Optimal: ");
+            token_list.getElmt_ListDyn(max_idx).DisplayList_Dyn_Resultado();
+            System.out.println();
+        }
 
         long duration = endTime-startTime;
         System.out.print(duration);
@@ -109,8 +115,23 @@ public class Driver {
         int unique_token = (new Scanner(System.in)).nextInt();
         String[] token = new String[unique_token];
 
-        System.out.print("Masukkan token-token buffer: ");
-        String[] token_inpute = (new Scanner(System.in)).nextLine().trim().split(" ");
+        String[] token_inpute;
+        while (true) {
+            System.out.print("Masukkan token-token buffer: ");
+            token_inpute = (new Scanner(System.in)).nextLine().trim().split(" ");
+            int count = 0;
+            for (int i = 0; i < token_inpute.length; i++) {
+                if (token_inpute[i].length() == 2) {
+                    count += 1;
+                }
+            }
+            if (count == token_inpute.length) {
+                break;
+            } else {
+                System.out.println("Jumlah digit setiap token harus 2!");
+            }
+        }
+
         for (int i = 0; i < unique_token; i++) {
             token[i] = token_inpute[i];
         }
@@ -143,6 +164,10 @@ public class Driver {
                 prize_token[i].InsertLast_String(token[r.nextInt(token.length)]);
             }
             prize_token[i].setprize_String(r.nextInt(101));
+            int rando = r.nextInt(3);
+            if (rando == 2) {
+                prize_token[i].setprize_String(-1*prize_token[i].getprize_String());
+            }
             prize_token[i].DisplayList_String();
             System.out.println();
             System.out.print(prize_token[i].getprize_String());
@@ -196,15 +221,21 @@ public class Driver {
             }
         }
 
-        System.out.print("Sekuens Optimal: ");
-        possible_tokens[max_idx].DisplayList_String();
-        System.out.println();
-        System.out.print("Poin Optimal: ");
-        System.out.print(possible_tokens[max_idx].getprize_String());
-        System.out.println();
-        System.out.println("Koordinat Optimal: ");
-        token_list.getElmt_ListDyn(max_idx).DisplayList_Dyn_Resultado();
-        System.out.println();
+        if (possible_tokens[max_idx].getprize_String() == 0) {
+            System.out.print("Tidak ada poin paling optimal. Maka hasilnya adalah 0: ");
+            System.out.print(possible_tokens[max_idx].getprize_String());
+            System.out.println();
+        } else {
+            System.out.print("Sekuens Optimal: ");
+            possible_tokens[max_idx].DisplayList_String();
+            System.out.println();
+            System.out.print("Poin Optimal: ");
+            System.out.print(possible_tokens[max_idx].getprize_String());
+            System.out.println();
+            System.out.println("Koordinat Optimal: ");
+            token_list.getElmt_ListDyn(max_idx).DisplayList_Dyn_Resultado();
+            System.out.println();
+        }
 
         long duration = endTime-startTime;
         System.out.print(duration);
