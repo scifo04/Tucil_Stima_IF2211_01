@@ -158,7 +158,7 @@ public class Driver {
         ListString[] prize_token = new ListString[jumlah_sekuens];
         int rand;
         for (int i = 0; i < jumlah_sekuens; i++) {
-            rand = r.nextInt(ukuran_maksimal_sekuens)+1;
+            rand = r.nextInt(ukuran_maksimal_sekuens-1)+2;
             prize_token[i] = new ListString(rand);
             for (int j = 0; j < rand; j++) {
                 prize_token[i].InsertLast_String(token[r.nextInt(token.length)]);
@@ -258,7 +258,18 @@ public class Driver {
             System.out.println("=====================================");
             System.out.println();
             System.out.print("Input: ");
-            int method = (new Scanner(System.in)).nextInt();
+
+            int method;
+            try {
+                method = (new Scanner(System.in)).nextInt();
+            } catch (InputMismatchException e) {
+                System. out. print("\033[H\033[2J");
+                System.out.flush();
+                System.out.println("=====================================");
+                System.out.println("||          Terima kasih!!         ||");
+                System.out.println("=====================================");
+                break;
+            }
 
             if (method == 1) {
                 first_method();
