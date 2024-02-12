@@ -6,11 +6,13 @@ public class ListDyn {
     public Point[] list;
     public int nEff;
     public int size;
+    public int prize;
 
     public ListDyn(int size) {
         this.list = new Point[size];
         this.nEff = 0;
         this.size = size;
+        this.prize = 0;
     }
 
     public int getnEff() {
@@ -19,6 +21,14 @@ public class ListDyn {
 
     public int getsize() {
         return this.size;
+    }
+
+    public int getprize() {
+        return this.prize;
+    }
+
+    public void setprize(int val) {
+        this.prize = val;
     }
 
     public Point getElmt_Dyn (int index) {
@@ -74,6 +84,17 @@ public class ListDyn {
             System.out.print(")");
             if (i != this.nEff-1) {
                 System.out.print(",");
+            }
+        }
+    }
+
+    public void DisplayList_Dyn_Resultado() {
+        for (int i = 0; i < this.nEff; i++) {
+            System.out.print(this.list[i].getY());
+            System.out.print(",");
+            System.out.print(this.list[i].getX());
+            if (i != this.nEff-1) {
+                System.out.println();
             }
         }
     }

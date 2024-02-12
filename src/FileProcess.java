@@ -8,7 +8,8 @@ public class FileProcess {
 
     public static void Read(String path, Matrix M, Matrix N){
             try{
-                File f = new File(path);
+                String test = "../test/";
+                File f = new File(test.concat(path));
                 Scanner reader = new Scanner(f);
                 if (reader.hasNextLine()) {
                     String buffer_size_string = reader.nextLine();
@@ -52,23 +53,40 @@ public class FileProcess {
             }
         }
         
-    public static void Write(String output) {
+    public static void Write(ListString liststring, int prize, ListDyn listcoor) {
         System.out.println();
         System.out.println("====================================");
         System.out.println("||    Simpan output dalam file?   ||");
         System.out.println("||--------------------------------||");
-        System.out.println("|| 1. Iya                         ||");
-        System.out.println("|| Anything Else : Tidak          ||");
+        System.out.println("|| (Y/y) : YES                    ||");
+        System.out.println("|| Other Response : NO            ||");
         System.out.println("====================================");
         System.out.println();
         try {
-            int input = scInt.nextInt();
-            if (input == 1) {
+            char input = (new Scanner(System.in)).next().charAt(0);
+            if (input == 'Y' || input == 'y') {
                 System.out.print("Masukkan sebuah path: ");
                 String path = scStr.nextLine();
                 try {
-                    FileWriter writer = new FileWriter(path);
-                    writer.write(output);
+                    String test = "../test/";
+                    FileWriter writer = new FileWriter(test.concat(path));
+                    for (int i = 0; i < liststring.getnEff_String(); i++) {
+                        writer.write(liststring.getElmt_String(i));
+                        if (i != liststring.getnEff_String()-1) {
+                            writer.write(" ");
+                        }
+                    }
+                    writer.write("\n");
+                    writer.write(Integer.toString(prize));
+                    writer.write("\n");
+                    for (int i = 0; i < listcoor.getnEff(); i++) {
+                        writer.write(Integer.toString(listcoor.getElmt_Dyn(i).getY()));
+                        writer.write(",");
+                        writer.write(Integer.toString(listcoor.getElmt_Dyn(i).getX()));
+                        if (i != liststring.getnEff_String()-1) {
+                            writer.write("\n");
+                        }
+                    }
                     writer.close();
                     System.out.println("Berhasil menulis ke file " + path);
                 } catch (IOException e) {
@@ -76,8 +94,7 @@ public class FileProcess {
                 }
             }
         } catch (InputMismatchException e) {
-            scInt.next();
-            scInt.nextLine();
+            char input = (new Scanner(System.in)).next().charAt(0);
         }
 
 

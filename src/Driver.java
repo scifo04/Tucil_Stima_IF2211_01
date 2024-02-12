@@ -16,18 +16,24 @@ public class Driver {
     static Matrix newMatrix = new Matrix(1,1);
 
     public static void first_method() {
+        System.out.println("WARNING: File yang diambil adalah dari folder test (test.txt, maka test/test.txt akan diproses)!");
         System.out.print("Masukkan nama file untuk diproses (Format adalah *.txt): ");
         Scanner file_name_inpute = new Scanner(System.in);
-        long startTime = System.currentTimeMillis();
         String file_name = file_name_inpute.nextLine();
         Matrix M = new Matrix(1000,1000);
         Matrix N = new Matrix(1000,1000);
         FileProcess.Read(file_name,M,N);
         ListDyn coor_liste = new ListDyn(N.Col());
         ListListDyn token_list = new ListListDyn(5);
-
-        for (int i = 0; i < 1; i++) {
-            M.game_horizontal(i, coor_liste, token_list);
+        long startTime = System.currentTimeMillis();
+        
+        try {
+            for (int i = 0; i < 1; i++) {
+                M.game_horizontal(i, coor_liste, token_list);
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.print("");
+            return;
         }
 
         ListString[] possible_tokens = new ListString[token_list.getnEff_list()];
@@ -60,33 +66,18 @@ public class Driver {
         for (int i = 0; i < possible_tokens.length; i++) {
             for (int j = 0; j < prize_tokens.length; j++) {
                 if (possible_tokens_2[i].isSubset_String(possible_tokens_2[i],prize_tokens[j])) {
-                    // if (j == 2) {
-                    //     possible_tokens_2[i].DisplayList_String();
-                    //     System.out.print(" ");
-                    //     prize_tokens[j].DisplayList_String();
-                    //     System.out.print(" ");
-                    // }
                     possible_tokens[i].addprize_String(prize_tokens[j].getprize_String());
-                    // if (possible_tokens[i].getprize_String() == 50) {
-                    //     System.out.print(possible_tokens[i].getprize_String());
-                    //     System.out.print(" ");
-                    //     System.out.print(i);
-                    //     System.out.println();
-                    // }
                 }
                 possible_tokens_2[i].copyList_String(possible_tokens[i]);
             }
         }
 
+        long endTime = System.currentTimeMillis();
+
         ListString max_ListString = new ListString(N.Col());
         int max_idx = 0;
         max_ListString.copyList_String(possible_tokens[0]);
         for (int i = 0; i < possible_tokens.length; i++) {
-            // possible_tokens[i].DisplayList_String();
-            // System.out.print(" ");
-            // System.out.print(possible_tokens[i].getprize_String());
-            // System.out.print(" ");
-            // System.out.println(i);
             if(!max_ListString.compare_ListString(possible_tokens[i])) {
                 max_ListString.copyList_String(possible_tokens[i]);
                 max_ListString.setprize_String(possible_tokens[i].getprize_String());
@@ -94,19 +85,26 @@ public class Driver {
             }
         }
 
+        System.out.print("Sekuens Optimal: ");
         possible_tokens[max_idx].DisplayList_String();
         System.out.println();
+        System.out.print("Poin Optimal: ");
         System.out.print(possible_tokens[max_idx].getprize_String());
         System.out.println();
-        System.out.println(max_idx);
+        System.out.println("Koordinat Optimal: ");
+        token_list.getElmt_ListDyn(max_idx).DisplayList_Dyn_Resultado();
+        System.out.println();
 
-        long endTime = System.currentTimeMillis();
         long duration = endTime-startTime;
         System.out.print(duration);
         System.out.println(" ms");
+
+        FileProcess.Write(max_ListString, possible_tokens[max_idx].getprize_String(), token_list.getElmt_ListDyn(max_idx));
     }
 
     public static void second_method() {
+        Random r = new Random();
+
         System.out.print("Masukkan jumlah token unik: ");
         int unique_token = (new Scanner(System.in)).nextInt();
         String[] token = new String[unique_token];
@@ -125,19 +123,102 @@ public class Driver {
         int matrix_row_size = Integer.parseInt(matrix_row_col[0]);
         int matrix_col_size = Integer.parseInt(matrix_row_col[1]);
 
-        System.out.println("Masukkan jumlah sekuens: ");
+        System.out.print("Masukkan jumlah sekuens: ");
         int jumlah_sekuens = (new Scanner(System.in)).nextInt();
 
-        System.out.println("Masukkan ukuran maksimal sekuens: ");
+        System.out.print("Masukkan ukuran maksimal sekuens: ");
         int ukuran_maksimal_sekuens = (new Scanner(System.in)).nextInt();
+
+        Matrix matrix_token = new Matrix(matrix_row_size, matrix_col_size);
+        matrix_token.generateMatrix(matrix_row_size, matrix_col_size, token);
+        matrix_token.displayMatrix();
+        System.out.println();
+
+        ListString[] prize_token = new ListString[jumlah_sekuens];
+        int rand;
+        for (int i = 0; i < jumlah_sekuens; i++) {
+            rand = r.nextInt(ukuran_maksimal_sekuens)+1;
+            prize_token[i] = new ListString(rand);
+            for (int j = 0; j < rand; j++) {
+                prize_token[i].InsertLast_String(token[r.nextInt(token.length)]);
+            }
+            prize_token[i].setprize_String(r.nextInt(101));
+            prize_token[i].DisplayList_String();
+            System.out.println();
+            System.out.print(prize_token[i].getprize_String());
+            System.out.println();
+        }
+
+        ListDyn coor_liste = new ListDyn(buffer_size);
+        ListListDyn token_list = new ListListDyn(5);
+
+        matrix_token.setCol(matrix_col_size);
+        matrix_token.setRow(matrix_row_size);
+        
+        long startTime = System.currentTimeMillis();
+        for (int i = 0; i < 1; i++) {
+            matrix_token.game_horizontal(i, coor_liste, token_list);
+        }
+
+        ListString[] possible_tokens = new ListString[token_list.getnEff_list()];
+        for (int i = 0; i < possible_tokens.length; i++) {
+            possible_tokens[i] = new ListString(token_list.getElmt_ListDyn(i).getnEff());
+            for (int j = 0; j < possible_tokens[i].getsize_String(); j++) {
+                possible_tokens[i].InsertLast_String(matrix_token.getElmt(token_list.getElmt_ListDyn(i).getElmt_Dyn(j).getX()-1, token_list.getElmt_ListDyn(i).getElmt_Dyn(j).getY()-1));
+            }
+        }
+
+        ListString[] possible_tokens_2 = new ListString[token_list.getnEff_list()];
+        for (int i = 0; i < possible_tokens_2.length; i++) {
+            possible_tokens_2[i] = new ListString(token_list.getElmt_ListDyn(i).getnEff());
+            possible_tokens_2[i].copyList_String(possible_tokens[i]);
+        }
+
+        for (int i = 0; i < possible_tokens.length; i++) {
+            for (int j = 0; j < prize_token.length; j++) {
+                if (possible_tokens_2[i].isSubset_String(possible_tokens_2[i],prize_token[j])) {
+                    possible_tokens[i].addprize_String(prize_token[j].getprize_String());
+                }
+                possible_tokens_2[i].copyList_String(possible_tokens[i]);
+            }
+        }
+        
+        long endTime = System.currentTimeMillis();
+
+        ListString max_ListString = new ListString(buffer_size);
+        int max_idx = 0;
+        max_ListString.copyList_String(possible_tokens[0]);
+        for (int i = 0; i < possible_tokens.length; i++) {
+            if(!max_ListString.compare_ListString(possible_tokens[i])) {
+                max_ListString.copyList_String(possible_tokens[i]);
+                max_ListString.setprize_String(possible_tokens[i].getprize_String());
+                max_idx = i;
+            }
+        }
+
+        System.out.print("Sekuens Optimal: ");
+        possible_tokens[max_idx].DisplayList_String();
+        System.out.println();
+        System.out.print("Poin Optimal: ");
+        System.out.print(possible_tokens[max_idx].getprize_String());
+        System.out.println();
+        System.out.println("Koordinat Optimal: ");
+        token_list.getElmt_ListDyn(max_idx).DisplayList_Dyn_Resultado();
+        System.out.println();
+
+        long duration = endTime-startTime;
+        System.out.print(duration);
+        System.out.println(" ms");
+
+        FileProcess.Write(max_ListString, possible_tokens[max_idx].getprize_String(), token_list.getElmt_ListDyn(max_idx));
     }
     
     // Main
     public static void main(String[] args) {
 
         System.out.println("Masukkan metode yang diinginkan");
-        System.out.println("1. File Processing");
-        System.out.println("2. Command Line Interface");
+        System.out.println("1. Matrix From File");
+        System.out.println("2. Random Generated Matrix");
         System.out.print("Input: ");
         int method = (new Scanner(System.in)).nextInt();
 

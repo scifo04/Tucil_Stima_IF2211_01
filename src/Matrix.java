@@ -8,7 +8,6 @@ public class Matrix {
     private int row;
     private int col;
     private int[] points;
-    public ListListDyn token_liste = new ListListDyn(5);
 
     public Matrix(int row, int col) {
         this.row = row;
@@ -96,8 +95,14 @@ public class Matrix {
                 token_list.InsertLast_ListDyn(new_list_copy);
                 game_horizontal(i, new_list, token_list);
                 new_list.DeleteLast_Dyn();
-            } else if (!coor_list.IsIn_Dyn(this.coordinate[row][i]) && coor_list.getnEff() == coor_list.getsize()) {
-                break;
+            } else {
+                try {
+                    if (!coor_list.IsIn_Dyn(this.coordinate[row][i]) && coor_list.getnEff() == coor_list.getsize()) {
+                        break;
+                    }
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    // Nothing
+                }
             }
         }
     }
@@ -113,17 +118,38 @@ public class Matrix {
                 token_list.InsertLast_ListDyn(new_list_copy);
                 game_vertical(i, new_list, token_list);
                 new_list.DeleteLast_Dyn();
-            } else if (!coor_list.IsIn_Dyn(this.coordinate[row][i]) && coor_list.getnEff() == coor_list.getsize()) {
-                break;
+            } else {
+                try {
+                    if (!coor_list.IsIn_Dyn(this.coordinate[row][i]) && coor_list.getnEff() == coor_list.getsize()) {
+                        break;
+                    }
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    // Nothing
+                }
             }
         }
     }
 
-    public void showList() {
-        System.out.print(token_liste.getnEff_list());
-        for (int i = 0; i < token_liste.getnEff_list(); i++) {
-            token_liste.getElmt_ListDyn(i);
-            System.out.println();
+    public String toString(char[] array) {
+        String string = new String(array);
+        return string;
+    }
+
+    public String generateToken() {
+        Random r = new Random();
+        char[] token = new char[2];
+        String upper = "AZB0CYD9EXF1GWV8UHT2SIR7QJP3OKL6M4N5";
+        for (int i = 0; i < token.length; i++) {
+            token[i] = upper.charAt(r.nextInt(upper.length()));
+        }
+        return toString(token);
+    }
+
+    public void generateMatrix(int row, int col, String[] strings) {
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                this.content[i][j] = strings[(new Random()).nextInt(strings.length)];
+            }
         }
     }
 }
