@@ -69,8 +69,10 @@ dihindari dan program akan lanjut melakukan iterasi ke elemen yang lain.
 2. Masukkan *cd bin*
 3. Masukkan *java Driver* pada directory bin tersebut
 
-Contoh: 
+Contoh:
+
 D:\file\file2\Tucil_Stima_IF2211_01> cd bin
+
 D:\file\file2\Tucil_Stime_IF2211_01\bin> java Driver
 
 ## Libraries Used
